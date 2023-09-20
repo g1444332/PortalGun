@@ -29,7 +29,7 @@ public final class PortalMain extends JavaPlugin implements Listener {
 
 		PluginManager manager = Bukkit.getPluginManager();
 
-		manager.registerEvents(new BlockInteract(blockHandler), this);
 		manager.registerEvents(new FallingBlockLand(blockHandler), this);
+		manager.registerEvents(new LocationBlock(blockHandler,this), this);
 	}
 }

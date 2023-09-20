@@ -1,4 +1,4 @@
-name: PortalGun
+name: MyJob
 version: ${project.version}
 main: me.gorgeousone.portalgun.PortalMain
-api-version: 1.13
+api-version: '1.20'

@@ -9,6 +9,7 @@ import org.bukkit.block.Block;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.FallingBlock;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
@@ -61,11 +62,6 @@ public class BlockHandler {
 		return liftedBlocks.get(player.getUniqueId());
 	}
 
-	public double getHoldingDistance(Player player) {
-		return holdingDistances.get(player.getUniqueId());
-	}
-
-
 	public Player getPlayerByLiftedBlock(FallingBlock liftedBlock) {
 
 		for (Map.Entry<UUID, FallingBlock> entry : liftedBlocks.entrySet()) {
@@ -83,7 +79,7 @@ public class BlockHandler {
 		new BukkitRunnable() {
 			@Override
 			public void run() {
-				
+
 				FallingBlock liftedBlock = spawnFloatingBlock(block);
 				UUID playerUUID = player.getUniqueId();
 
@@ -91,7 +87,6 @@ public class BlockHandler {
 				holdingDistances.put(playerUUID, liftedBlock.getLocation().distance(player.getEyeLocation()));
 				blockOrigins.put(playerUUID, block);
 
-				player.playNote(player.getLocation(), Instrument.BANJO, Note.natural(0, Note.Tone.A));
 			}
 		}.runTask(main);
 	}
@@ -102,7 +97,9 @@ public class BlockHandler {
 			return;
 
 		FallingBlock liftedBlock = getLiftedBlock(player);
-		liftedBlock.setGravity(true);
+		liftedBlock.setGravity(false);
+		liftedBlock.setDropItem(false);
+		liftedBlock.remove();
 
 		Vector velocity = liftedBlock.getVelocity();
 
@@ -114,7 +111,6 @@ public class BlockHandler {
 		holdingDistances.remove(playerUUID);
 		blockOrigins.remove(playerUUID);
 
-		player.playNote(player.getLocation(), Instrument.BANJO, Note.natural(0, Note.Tone.D));
 	}
 
 	public void respawnLiftedBlock(Player player) {
@@ -126,7 +122,6 @@ public class BlockHandler {
 		FallingBlock liftedBlock = spawnFloatingBlock(deadBlock.getLocation(), deadBlock.getBlockData());
 		liftedBlocks.put(player.getUniqueId(), liftedBlock);
 
-		player.playNote(player.getLocation(), Instrument.BANJO, Note.natural(0, Note.Tone.E));
 	}
 
 	private FallingBlock spawnFloatingBlock(Block block) {
@@ -134,7 +129,6 @@ public class BlockHandler {
 		Location blockMid = block.getLocation().add(0.5, 0, 0.5);
 		FallingBlock floatingBlock = spawnFloatingBlock(blockMid, block.getBlockData());
 
-		block.setType(Material.AIR);
 		return floatingBlock;
 	}
 

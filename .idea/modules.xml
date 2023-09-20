@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/PortalGun.iml" filepath="$PROJECT_DIR$/PortalGun.iml" />
+      <module fileurl="file://$PROJECT_DIR$/portalgun.iml" filepath="$PROJECT_DIR$/portalgun.iml" />
     </modules>
   </component>
 </project>
